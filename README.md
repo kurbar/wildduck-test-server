@@ -3,6 +3,8 @@
 This is a helper package for writing tests that interact with the Wildduck API or other parts in some way. It exposes a test server script via the vendor/node_modules bin directory to
 easily link it with your NPM or Compose flows.
 
+**Not usable yet. Still in heavy development**
+
 ## Installation
 
 Via NPM:
