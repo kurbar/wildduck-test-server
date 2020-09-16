@@ -3,8 +3,6 @@
 This is a helper package for writing tests that interact with the Wildduck API or other parts in some way. It exposes a test server script via the vendor/node_modules bin directory to
 easily link it with your NPM or Compose flows.
 
-**Not usable yet. Still in heavy development**
-
 ## Installation
 
 Via NPM:
@@ -48,9 +46,9 @@ Composer (Note: it is recommended to disable process timeout since on first star
   "scripts": {
     "test": [
       "Composer\\Config::disableProcessTimeout",
-      "@wildduck-test-server start",
-      "phpunit",
-      "@wildduck-test-server stop"
+      "wildduck-test-server start",
+      "phpunit tests/",
+      "wildduck-test-server stop"
     ]
   }
 }
