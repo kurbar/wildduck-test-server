@@ -1,0 +1,25 @@
+#!/bin/sh
+
+SCRIPT=$(readlink -f "$0")
+BASEDIR=`dirname "$SCRIPT"`
+
+if [[ "$1" != "start" && "$1" != "stop" ]]; then
+  echo "Usage: wildduck-test-server [start|stop]"
+  exit 1
+fi
+
+if [[ "$1" == "start" ]] ; then
+  echo "Wildduck test server is starting (can take a bit on first use, hang tight)..."
+  docker-compose -f $BASEDIR/docker-compose.yml up -d
+
+  echo "Wildduck test server is up"
+  echo "API is available at http://localhost:9080"
+  echo "AccessToken: WDTESTSERVER"
+  exit 0
+fi
+
+if [[ "$1" == "stop" ]] ; then
+  echo "Wildduck test server is shutting down..."
+  docker-compose -f $BASEDIR/docker-compose.yml down --rmi -v
+  echo "Wildduck test server closed. Bye-bye!"
+fi

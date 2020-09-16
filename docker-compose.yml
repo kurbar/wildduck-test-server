@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  wildduck:
+    image: nodemailer/wildduck
+    ports:
+    - "9080:8080"
+    - "9143:143"
+    - "9110:110"
+    - "9993:993"
+    - "9995:995"
+    environment:
+      CMD_ARGS: 
+        --dbs.mongo=mongodb://mongo:27017/wildduck
+        --dbs.redis=redis://redis:6379/3
+        --api.host=0.0.0.0
+        --api.accessToken=WDTESTSERVER
+    networks:
+    - wdtest
+  redis:
+    image: redis:alpine
+    volumes:
+    - /data
+    networks:
+    - wdtest
+  mongo:
+    image: mongo
+    volumes:
+    - /data/db
+    networks:
+    - wdtest
+networks:
+  wdtest:
