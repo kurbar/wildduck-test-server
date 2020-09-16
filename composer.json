@@ -3,5 +3,8 @@
   "description": "A helper package for writing tests that interact with Wildduck at some way",
   "version": "0.1.0",
   "license": "MIT",
-  "bin": ["bin/wildduck-test-server"]
+  "bin": ["bin/wildduck-test-server"],
+  "scripts": {
+    "wildduck-test-server": "wildduck-test-server"
+  }
 }

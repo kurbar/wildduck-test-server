@@ -1,8 +1,5 @@
 #!/bin/sh
 
-SCRIPT=$(readlink -f "$0")
-BASEDIR=`dirname "$SCRIPT"`
-
 if [[ "$1" != "start" && "$1" != "stop" ]]; then
   echo "Usage: wildduck-test-server [start|stop]"
   exit 1

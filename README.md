@@ -48,9 +48,9 @@ Composer (Note: it is recommended to disable process timeout since on first star
   "scripts": {
     "test": [
       "Composer\\Config::disableProcessTimeout",
-      "wildduck-test-server start",
+      "@wildduck-test-server start",
       "phpunit",
-      "wildduck-test-server stop"
+      "@wildduck-test-server stop"
     ]
   }
 }
