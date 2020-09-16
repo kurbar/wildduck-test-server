@@ -20,8 +20,8 @@ if [[ "$1" == "start" ]] ; then
     -p 9993:993 \
     -p 9995:995 \
     --env CMD_ARGS="\
-    --dbs.mongo=mongodb://mongo:27017/wildduck \
-    --dbs.redis=redis://redis:6379/3 \
+    --dbs.mongo=mongodb://wdt_mongo:27017/wildduck \
+    --dbs.redis=redis://wdt_redis:6379/3 \
     --api.host=0.0.0.0 \
     --api.accessToken=WDTESTSERVER" \
     nodemailer/wildduck &>/dev/null
