@@ -7,7 +7,7 @@ easily link it with your NPM or Compose flows.
 
 Via NPM:
 ```bash
-npm install --save-dev kurbar/wildduck-test-server
+npm install --save-dev wildduck-test-server
 ```
 
 Via Composer:

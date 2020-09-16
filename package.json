@@ -3,5 +3,9 @@
   "description": "A helper package for writing tests that interact with Wildduck at some way",
   "version": "0.1.0",
   "license": "MIT",
-  "bin": { "wildduck-test-server": "bin/wildduck-test-server" }
+  "bin": { "wildduck-test-server": "bin/wildduck-test-server" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kurbar/wildduck-test-server.git"
+  }
 }
