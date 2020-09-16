@@ -11,8 +11,13 @@ fi
 if [[ "$1" == "start" ]] ; then
   echo "Wildduck test server is starting (can take a bit on first use, hang tight)..."
   docker network create wdtest &>/dev/null
+  echo "wdtest network created"
+
+  echo "Starting Redis container..."
   docker run -d --network=wdtest --name=wdt_redis -v /data redis:alpine &>/dev/null
+  echo "Starting Mongo container..."
   docker run -d --network=wdtest --name=wdt_mongo -v /data/db mongo &>/dev/null
+  echo "Starting Wildduck container..."
   docker run -d --network=wdtest --name=wdt_wildduck \
     -p 9080:8080 \
     -p 9143:143 \
