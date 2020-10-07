@@ -5,6 +5,11 @@ easily link it with your NPM or Compose flows.
 
 ## Installation
 
+**Note:** Currently only supported on Mac and Linux. Windows support is coming.
+
+### For Mac users
+This package relies on `readlink -f` but Mac's default installed `readlink` does not support the `-f` option. Hence, `coreutils` should be installed. Can be installed via MacPorts or Homebrew (`brew install coreutils`).
+
 Via NPM:
 ```bash
 npm install --save-dev wildduck-test-server
