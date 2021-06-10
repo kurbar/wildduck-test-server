@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # Mac OS X requires coreutils to be installed for greadlink
