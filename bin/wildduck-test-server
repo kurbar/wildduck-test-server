@@ -43,7 +43,7 @@ if [[ "$1" == "start" ]]; then
     echo "Waiting for server to start responding..."
     i=15
     serverUp=0
-    while [ $i ] >0; do
+    while [ "$i" != 0 ]; do
         res=$(curl -s -o /dev/null -I -w "%{http_code}" http://localhost:9080/authenticate)
         i=$i-1
         if [ "$res" -ne 000 ]; then
@@ -56,7 +56,7 @@ if [[ "$1" == "start" ]]; then
 
     if [ "$serverUp" -eq 0 ]; then
         echo "Unable to start wildduck test server. Please try again."
-        exit 1;
+        exit 1
     fi
 
     echo "API is available at http://localhost:9080"
