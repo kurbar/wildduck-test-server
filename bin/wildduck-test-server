@@ -45,12 +45,14 @@ if [[ "$1" == "start" ]]; then
     serverUp=0
     while [ "$i" != 0 ]; do
         res=$(curl -s -o /dev/null -I -w "%{http_code}" http://localhost:9080/authenticate)
-        i=$i-1
+        i=$((i - 1))
+        printf "Status: %s \n" "$res"
         if [ "$res" -ne 000 ]; then
             serverUp=1
             echo "Wildduck test server is up"
             break
         fi
+        printf "Retries left: %s \n" "$i"
         sleep 1
     done
 
