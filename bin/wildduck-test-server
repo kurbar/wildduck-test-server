@@ -1,6 +1,7 @@
-#!/bin/sh
+#!/bin/dash
+# Dash because github actions use dash as default
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [ -n $(echo "$OSTYPE" | grep -c "darwin") ]; then
     # Mac OS X requires coreutils to be installed for greadlink
     SCRIPT=$(greadlink -f "$0")
 else
@@ -10,22 +11,22 @@ fi
 # Absolute path this script is in, thus /home/user/bin
 SCRIPTPATH=$(dirname "$SCRIPT")
 
-if [[ "$1" != "start" && "$1" != "stop" ]]; then
+if [ "$1" != "start" ] && [ "$1" != "stop" ]; then
     echo "Usage: wildduck-test-server [start|stop]"
     exit 1
 fi
 
-if [[ "$1" == "start" ]]; then
+if [ "$1" = "start" ]; then
     echo "Pulling latest wildduck image..."
     docker pull nodemailer/wildduck:latest
     echo "Wildduck test server is starting (can take a bit on first use, hang tight)..."
-    docker network create wdtest &>/dev/null
+    docker network create wdtest >/dev/null
     echo "wdtest network created"
 
     echo "Starting Redis container..."
-    docker run -d --network=wdtest --name=wdt_redis -v /data redis:alpine &>/dev/null
+    docker run -d --network=wdtest --name=wdt_redis -v /data redis:alpine >/dev/null
     echo "Starting Mongo container..."
-    docker run -d --network=wdtest --name=wdt_mongo -v /data/db mongo &>/dev/null
+    docker run -d --network=wdtest --name=wdt_mongo -v /data/db mongo >/dev/null
     echo "Starting Wildduck container..."
     docker run -d --network=wdtest --name=wdt_wildduck \
         -p 9080:8080 \
@@ -38,19 +39,21 @@ if [[ "$1" == "start" ]]; then
     --dbs.redis=redis://wdt_redis:6379/3 \
     --api.host=0.0.0.0 \
     --api.accessToken=WDTESTSERVER" \
-        nodemailer/wildduck &>/dev/null
+        nodemailer/wildduck >/dev/null
 
     echo "Waiting for server to start responding..."
     i=15
     serverUp=0
-    while [ "$i" != 0 ]; do
+    while [ "$i" -ne 0 ]; do
         res=$(curl -s -o /dev/null -I -w "%{http_code}" http://localhost:9080/authenticate)
-        i=$i-1
+        i=$((i - 1))
+        printf "Status: %s \n" "$res"
         if [ "$res" -ne 000 ]; then
             serverUp=1
             echo "Wildduck test server is up"
             break
         fi
+        printf "Retries left: %s \n" "$i"
         sleep 1
     done
 
@@ -64,11 +67,11 @@ if [[ "$1" == "start" ]]; then
     exit 0
 fi
 
-if [[ "$1" == "stop" ]]; then
+if [ "$1" = "stop" ]; then
     echo "Wildduck test server is shutting down..."
-    docker rm -f -v wdt_wildduck &>/dev/null
-    docker rm -f -v wdt_mongo &>/dev/null
-    docker rm -f -v wdt_redis &>/dev/null
-    docker network rm wdtest &>/dev/null
+    docker rm -f -v wdt_wildduck > /dev/null
+    docker rm -f -v wdt_mongo > /dev/null
+    docker rm -f -v wdt_redis > /dev/null
+    docker network rm wdtest > /dev/null
     echo "Wildduck test server closed. Bye-bye!"
 fi
