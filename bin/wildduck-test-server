@@ -17,7 +17,7 @@ fi
 
 if [[ "$1" == "start" ]]; then
     echo "Pulling latest wildduck image..."
-    docker pull nodemailer/wildduck:latest
+    docker pull andris9/wildduck:latest
     echo "Wildduck test server is starting (can take a bit on first use, hang tight)..."
     docker network create wdtest &>/dev/null
     echo "wdtest network created"
