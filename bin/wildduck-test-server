@@ -39,7 +39,7 @@ if [ "$1" = "start" ]; then
     --dbs.redis=redis://wdt_redis:6379/3 \
     --api.host=0.0.0.0 \
     --api.accessToken=WDTESTSERVER" \
-        nodemailer/wildduck >/dev/null
+        andris9/wildduck >/dev/null
 
     echo "Waiting for server to start responding..."
     i=${2:-15}
