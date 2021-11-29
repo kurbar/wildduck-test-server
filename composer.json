@@ -1,7 +1,7 @@
 {
   "name": "kurbar/wildduck-test-server",
   "description": "A helper package for writing tests that interact with Wildduck at some way",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "license": "MIT",
   "bin": ["bin/wildduck-test-server"],
   "scripts": {
