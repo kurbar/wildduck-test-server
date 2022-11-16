@@ -19,14 +19,16 @@ fi
 if [ "$1" = "start" ]; then
     echo "Pulling latest wildduck image..."
     docker pull andris9/wildduck:latest
+    docker pull redis:alpine
+    docker pull mongo
     echo "Wildduck test server is starting (can take a bit on first use, hang tight)..."
     docker network create wdtest >/dev/null
     echo "wdtest network created"
 
     echo "Starting Redis container..."
-    docker run -d --network=wdtest --name=wdt_redis -v /data redis:alpine >/dev/null
+    docker run -d --network=wdtest --name=wdt_redis -v /data redis:alpine
     echo "Starting Mongo container..."
-    docker run -d --network=wdtest --name=wdt_mongo -v /data/db mongo >/dev/null
+    docker run -d --network=wdtest --name=wdt_mongo -v /data/db mongo
     echo "Starting Wildduck container..."
     docker run -d --network=wdtest --name=wdt_wildduck \
         -p 9080:8080 \
@@ -39,12 +41,14 @@ if [ "$1" = "start" ]; then
     --dbs.redis=redis://wdt_redis:6379/3 \
     --api.host=0.0.0.0 \
     --api.accessToken=WDTESTSERVER" \
-        nodemailer/wildduck >/dev/null
+        nodemailer/wildduck
 
     echo "Waiting for server to start responding..."
     i=${2:-15}
     serverUp=0
-    while [ "$i" -ne 0 ]; do
+    echo "Wildduck container status: \"$( docker container inspect -f '{{.State.Status}}' wdt_wildduck )\""
+
+    while [ "$i" -ne 0 ] && [ "$( docker container inspect -f '{{.State.Status}}' wdt_wildduck )" = "running" ]; do
         res=$(curl -s -o /dev/null -I -w "%{http_code}" http://localhost:9080/authenticate)
         i=$((i - 1))
         
