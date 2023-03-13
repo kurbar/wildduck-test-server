@@ -1,7 +1,7 @@
 {
   "name": "wildduck-test-server",
   "description": "A helper package for writing tests that interact with Wildduck at some way",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "license": "MIT",
   "bin": { "wildduck-test-server": "bin/wildduck-test-server" },
   "repository": {
