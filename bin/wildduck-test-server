@@ -18,7 +18,7 @@ fi
 
 if [ "$1" = "start" ]; then
     echo "Pulling latest wildduck image..."
-    docker pull andris9/wildduck:latest
+    docker pull nodemailer/wildduck:latest
     docker pull redis:alpine
     docker pull mongo
     echo "Wildduck test server is starting (can take a bit on first use, hang tight)..."
@@ -41,7 +41,7 @@ if [ "$1" = "start" ]; then
     --dbs.redis=redis://wdt_redis:6379/3 \
     --api.host=0.0.0.0 \
     --api.accessToken=WDTESTSERVER" \
-        andris9/wildduck >/dev/null
+        nodemailer/wildduck >/dev/null
 
     echo "Waiting for server to start responding..."
     i=${2:-15}
@@ -51,7 +51,7 @@ if [ "$1" = "start" ]; then
     while [ "$i" -ne 0 ] && [ "$( docker container inspect -f '{{.State.Status}}' wdt_wildduck )" = "running" ]; do
         res=$(curl -s -o /dev/null -I -w "%{http_code}" http://localhost:9080/authenticate)
         i=$((i - 1))
-        
+
         printf "Status: %s \n" "$res"
         if [ "$res" -ne 000 ]; then
             serverUp=1
