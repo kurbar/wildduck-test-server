@@ -25,25 +25,27 @@ if [ "$1" = "start" ]; then
     docker network create wdtest >/dev/null
     echo "wdtest network created"
 
-    echo "Starting Redis container..."
-    docker run -d --network=wdtest --name=wdt_redis -v /data redis:alpine
-    echo "Starting Mongo container..."
-    docker run -d --network=wdtest --name=wdt_mongo -v /data/db mongo
-    echo "Starting Wildduck container..."
-    docker run -d --network=wdtest --name=wdt_wildduck \
-        -p 9080:8080 \
-        -p 9143:143 \
-        -p 9110:110 \
-        -p 9993:993 \
-        -p 9995:995 \
-        --env CMD_ARGS="\
-    --dbs.mongo=mongodb://wdt_mongo:27017/wildduck \
-    --dbs.redis.host=wdt_redis \
-    --dbs.redis.port=6379 \
-    --dbs.redis.db=3 \
-    --api.host=0.0.0.0 \
-    --api.accessToken=WDTESTSERVER" \
-        nodemailer/wildduck >/dev/null
+        echo "Starting Redis container..."
+        docker run -d --network=wdtest --name=wdt_redis -v /data redis:alpine
+        echo "Starting Mongo container..."
+        docker run -d --network=wdtest --name=wdt_mongo -v /data/db mongo
+        echo "Starting Wildduck container..."
+        docker run -d --network=wdtest --name=wdt_wildduck \
+          -p 9080:8080 \
+          -p 9143:143 \
+          -p 9110:110 \
+          -p 9993:993 \
+          -p 9995:995 \
+          nodemailer/wildduck \
+          node \
+          /wildduck/server.js \
+          --dbs.mongo=mongodb://wdt_mongo:27017/wildduck \
+          --dbs.redis.host=wdt_redis \
+          --dbs.redis.port=6379 \
+          --dbs.redis.db=3 \
+          --api.host=0.0.0.0 \
+          --api.accessToken=WDTESTSERVER \
+          > /dev/null
 
     echo "Waiting for server to start responding..."
     i=${2:-15}
