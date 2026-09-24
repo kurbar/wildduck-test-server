@@ -26,9 +26,9 @@ if [ "$1" = "start" ]; then
     echo "wdtest network created"
 
         echo "Starting Redis container..."
-        docker run -d --network=wdtest --name=wdt_redis -v /data redis:alpine
+        docker run -d --network=wdtest --name=wdt_redis redis:alpine
         echo "Starting Mongo container..."
-        docker run -d --network=wdtest --name=wdt_mongo -v /data/db mongo:7.0
+        docker run -d --network=wdtest --name=wdt_mongo mongo:7.0
         echo "Starting Wildduck container..."
         docker run -d --network=wdtest --name=wdt_wildduck \
           -p 9080:8080 \
